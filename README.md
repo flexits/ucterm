@@ -1,5 +1,7 @@
 # UcTerm
 
+![License](https://img.shields.io/github/license/flexits/ucterm) ![C](https://img.shields.io/badge/language-C-blue) ![Embedded](https://img.shields.io/badge/platform-embedded-lightgrey)
+
 Ever considered adding a command-line interface to your microcontroller-based project, but didn't want to deal with cursor movement and ESC-sequence boilerplate? **UcTerm** is a lean and simple solution.
 
 With just two files — `ucterm.h` and `ucterm.c` — containing the public API and implementation respectively, UcTerm provides an easy-to-use CLI engine. Out of the box, it supports:
@@ -128,3 +130,7 @@ cd build
 cmake -G "MinGW Makefiles" ..
 cmake --build . && ctest -V
 ```
+
+## License
+
+UcTerm is licensed under the MIT License. See [LICENSE](LICENSE) for details.
