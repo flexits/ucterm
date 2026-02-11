@@ -1,6 +1,6 @@
 # UcTerm
 
-![License](https://img.shields.io/github/license/flexits/ucterm) ![C](https://img.shields.io/badge/language-C-blue) ![Embedded](https://img.shields.io/badge/platform-embedded-lightgrey)
+[![License](https://img.shields.io/github/license/flexits/ucterm)](LICENSE) [![C](https://img.shields.io/badge/language-C-blue)]() [![Embedded](https://img.shields.io/badge/platform-embedded-lightgrey)]()
 
 Ever considered adding a command-line interface to your microcontroller-based project, but didn't want to deal with cursor movement and ESC-sequence boilerplate? **UcTerm** is a lean and simple solution.
 
