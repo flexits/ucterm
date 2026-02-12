@@ -4,6 +4,9 @@
 
 Ever considered adding a command-line interface to your microcontroller-based project, but didn't want to deal with cursor movement and ESC-sequence boilerplate? **UcTerm** is a lean and simple solution.
 
+![ucterm](https://github.com/user-attachments/assets/e5b94dd1-94d6-485e-902b-359b5948ea63)
+
+
 With just two files — `ucterm.h` and `ucterm.c` — containing the public API and implementation respectively, UcTerm provides an easy-to-use CLI engine. Out of the box, it supports:
 
 - Enter, Backspace, and Delete keys
