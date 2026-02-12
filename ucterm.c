@@ -259,7 +259,7 @@ void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c)
     // early return if no input
     if (0 == ctx->length)
     {
-      ctx->printStr(OUT_PROMPT_STR); // TODO proper prompt
+      ctx->printStr(OUT_PROMPT_STR); 
       return;
     }
     // terminate the string
@@ -274,7 +274,7 @@ void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c)
     }
     // reset the buffer - get ready for a new input line
     _reset_buf(ctx);
-    ctx->printStr(OUT_PROMPT_STR); // TODO proper prompt
+    ctx->printStr(OUT_PROMPT_STR); 
     return;
   }
 
@@ -352,7 +352,7 @@ void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c)
   if ((MAX_STR_LEN - 2) < ctx->index)
   {
     // input too long, show error
-    ctx->printStr(OUT_UNKNOWN_STR); // TODO more meaningful error
+    ctx->printStr(OUT_UNKNOWN_STR);
     _reset_buf(ctx);
     return;
   }
@@ -365,17 +365,17 @@ void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c)
       if (_shift_buf_right(ctx, ctx->index))
       {
         _overwrite_terminal_line(ctx);
-        ctx->length--; // will be increased later TODO ugly
       }
       else
       {
         // buffer overflow, discard the character
         return;
       }
+    } else 
+    {
+      ctx->length++;
     }
-    ctx->buf[ctx->index] = c;
-    ctx->index++;
-    ctx->length++;
+    ctx->buf[ctx->index++] = c;
     ctx->printChr(c);
     return;
   }
