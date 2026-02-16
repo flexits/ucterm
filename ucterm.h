@@ -45,17 +45,27 @@ After initialization, pass all incoming characters to UcTerm_IngestChar.
 // Must match the internal structure size with alignment
 // (i.e. 184 on Win64, 156 on STM32).
 #if defined(_WIN32)
-#define UCTERM_STORAGE_SIZE 184
-#elif
-#define UCTERM_STORAGE_SIZE 156
+    #define UCTERM_STORAGE_SIZE 184
+#elif defined(__AVR__)
+    #define UCTERM_STORAGE_SIZE 142
+#else
+    #define UCTERM_STORAGE_SIZE 156
 #endif
 
+#if defined(__AVR__)
+/// @brief UcTerm state storage.
+typedef struct
+{
+  uint8_t storage[UCTERM_STORAGE_SIZE];
+} UcTerm_HandleTypeDef;
+#else
 /// @brief UcTerm state storage.
 typedef union
 {
   uint8_t storage[UCTERM_STORAGE_SIZE];
   max_align_t _align;
 } UcTerm_HandleTypeDef;
+#endif
 
 /// @brief Init the internal storage. This must be called
 /// prior to using any functions of the package.
@@ -97,3 +107,4 @@ void UcTerm_ShowPrompt(UcTerm_HandleTypeDef *self);
 void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c);
 
 #endif // UCTERM_H_
+
