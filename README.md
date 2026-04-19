@@ -99,6 +99,8 @@ void main(void)
 }
 ```
 
+This setup better fits small systems, i.e ATmega. For more complex ones like STM32 you may like adding another level of abstraction - the Cli wrapper.
+
 ## Usage with Cli wrapper
 
 A more structured and convenient approach is to use the optional wrapper (`cli.h` & `cli.c`). Its main purpose is to encapsulate the setup described above.
@@ -133,6 +135,16 @@ cd build
 cmake -G "MinGW Makefiles" ..
 cmake --build . && ctest -V
 ```
+
+## Simulation
+
+Navigate to /simulation/avr for a basic example of UcTerm usage on ATmega168. You'll need Proteus 8 to run it. 
+
+Note that the Proteus' Virtual Terminal is connected to the chip's TX pin only. If you want to send characters from the Virtual Terminal, draw the missing wire to the RX pin as well, and delete the existing wire from the RX pin to the COMPIM - Proteus' simulated COM port. Don't connect both components to the RX pin at the same time, because one of them will always suppress the transmission by pulling the line high while you use the other. 
+
+However, the Virtual Terminal of Proteus is somewhat limited in terms of ESC sequences, so I suggest you to use Putty or similar software. You'll need a virtual null-modem cable to connect Putty (or whatever software you prefer) with the Proteus' simulated COM port. I prefer [com0com](https://sourceforge.net/projects/com0com/) for this. Adjust the COMPIM properties (double-click on the component) to match the emulated null-modem port and connect Putty to the second one. Use 9600 bps speed unless you've changed the code in the project!
+
+To see the code, right-click the ATmega symbol and select "Edit source code" menu option.
 
 ## License
 
