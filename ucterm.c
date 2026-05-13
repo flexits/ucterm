@@ -4,30 +4,30 @@
 /* Output strings to be printed */
 #define OUT_NEWLINE_STR ((uint8_t *)"\r\n")
 #define OUT_UNKNOWN_STR ((uint8_t *)"\r\n?\r\n>")
-#define OUT_PROMPT_STR ((uint8_t *)"\x1B[0m\r\n>")
+#define OUT_PROMPT_STR  ((uint8_t *)"\x1B[0m\r\n>")
 // Note: the prompt char is '>' and you may use another.
 // Keep in mind that the prompt width of the OUT_PROMPT_STR is one visible char.
 // If you increase this, you also need to make corrections to
 // PROMPT_WIDTH and OUT_CHA_2.
 
 // how many visible characters does the cli prompt contain
-#define PROMPT_WIDTH 1
+#define PROMPT_WIDTH  1
 
 /* Terminal interaction commands */
-#define OUT_CHA_2 ((uint8_t *)"\x1B[2G") // move cursor to the 2nd column
-#define OUT_L_ARROW ((uint8_t *)"\x1B[D")
-#define OUT_R_ARROW ((uint8_t *)"\x1B[C")
+#define OUT_CHA_2     ((uint8_t *)"\x1B[2G") // move cursor to the 2nd column
+#define OUT_L_ARROW   ((uint8_t *)"\x1B[D")
+#define OUT_R_ARROW   ((uint8_t *)"\x1B[C")
 #define OUT_ERASE_END ((uint8_t *)"\x1B[K")
 
 /* ESC-sequence characters */
-#define ESC_HEADER 0x1B
-#define ESC_SEPRTR '['
+#define ESC_HEADER    0x1B
+#define ESC_SEPRTR    '['
 
 /* Special characters */
-#define KEY_ENTER_LF '\n'
-#define KEY_ENTER_CR '\r'
+#define KEY_ENTER_LF  '\n'
+#define KEY_ENTER_CR  '\r'
 #define KEY_BACKSPACE 0x08
-#define KEY_DELETE 0x7F
+#define KEY_DELETE    0x7F
 
 /* Ctrl+ sequences */
 #define CTRL_J 0x0A // Line Feed
@@ -144,9 +144,6 @@ void UcTerm_Init(UcTerm_HandleTypeDef *self)
 {
   UcTermState_t *ctx = ucterm_internal(self);
   memset(ctx, 0, sizeof(UcTermState_t));
-  ctx->printChr = NULL;
-  ctx->printStr = NULL;
-  ctx->exec = NULL;
 }
 
 void UcTerm_RegisterPrintCharCallback(UcTerm_HandleTypeDef *self,
@@ -272,8 +269,9 @@ void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c)
       ctx->printStr(OUT_NEWLINE_STR);
       ctx->exec(ctx->argc, ctx->argv);
     }
-    // reset the buffer - get ready for a new input line
+    // reset the buffers - get ready for a new input line
     _reset_buf(ctx);
+    _reset_esc_buf(ctx);
     ctx->printStr(OUT_PROMPT_STR); 
     return;
   }
@@ -354,6 +352,7 @@ void UcTerm_IngestChar(UcTerm_HandleTypeDef *self, uint8_t c)
     // input too long, show error
     ctx->printStr(OUT_UNKNOWN_STR);
     _reset_buf(ctx);
+    _reset_esc_buf(ctx);
     return;
   }
 
@@ -393,8 +392,6 @@ static inline void _reset_buf(UcTermState_t *self)
   self->length = 0;
   self->index = 0;
   self->buf[0] = '\0';
-  self->esc_buf[0] = '\0';
-  self->esc_index = 0;
 }
 
 static inline void _reset_esc_buf(UcTermState_t *self)

@@ -56,14 +56,15 @@ After initialization, pass all incoming characters to UcTerm_IngestChar.
 /// @brief UcTerm state storage.
 typedef struct
 {
+  // max_align_t excluded for toolchains lacking C11 support 
   uint8_t storage[UCTERM_STORAGE_SIZE];
 } UcTerm_HandleTypeDef;
 #else
 /// @brief UcTerm state storage.
 typedef union
 {
-  uint8_t storage[UCTERM_STORAGE_SIZE];
   max_align_t _align;
+  uint8_t storage[UCTERM_STORAGE_SIZE];
 } UcTerm_HandleTypeDef;
 #endif
 
